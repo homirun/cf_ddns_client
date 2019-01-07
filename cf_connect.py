@@ -19,7 +19,6 @@ class CFConnect:
         headers = {'X-Auth-Email': self.email, 'X-Auth-Key': self.API_KEY, 'Content-Type': "application/json"}
         res = requests.get(url, headers=headers)
         zone_id = json.loads(res.content)["result"][0]["id"]
-        print()
         return zone_id
 
     def get_record_id(self):
