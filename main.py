@@ -28,6 +28,10 @@ def main():
 
 
 def get_ip():
+    """Get your global ip
+
+    :return ip: your global ip
+    """
     res = requests.get('http://api.ipify.org/')
     return res
 
