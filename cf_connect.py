@@ -40,9 +40,9 @@ class CFConnect:
 
     def get_record_id(self):
         """Get record_id
-
         :return record_id: your domain's record_id
         """
+
         url = self.END_POINT_BASE_URL + "zones/" + self._get_zone_id() + "/dns_records?name=" + self.domain_record
         headers = {'X-Auth-Email': self.email, 'X-Auth-Key': self.API_KEY, 'Content-Type': "application/json"}
         res = requests.get(url, headers=headers)
