@@ -20,7 +20,10 @@ class CFConnect:
         self.domain_record = domain_record
         self.email = email
 
-    def set_ip(self):
+    def set_ip(self, ip):
+        """ Set IP to CloudFlare
+        :param ip: your global ip
+        """
         pass
 
     def _get_zone_id(self):

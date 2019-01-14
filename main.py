@@ -1,4 +1,3 @@
-import requests
 from cf_connect import *
 
 
@@ -33,7 +32,7 @@ def get_ip():
     :return ip: your global ip
     """
     res = requests.get('http://api.ipify.org/')
-    return res
+    return res.content.decode('UTF-8')
 
 
 if __name__ == '__main__':
