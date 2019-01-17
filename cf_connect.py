@@ -1,5 +1,6 @@
 import requests
 import json
+import user_exception
 
 
 class CFConnect:
@@ -52,8 +53,9 @@ class CFConnect:
         headers = {'X-Auth-Email': self.email, 'X-Auth-Key': self.API_KEY, 'Content-Type': 'application/json'}
         content = {'type': 'A', 'name': self.domain_name, 'content': self.ip}
         content = json.dumps(content)
-
         res = requests.put(url, content, headers=headers)
-        return res.content
+        if json.loads(res.content)["success"] is False:
+            raise user_exception.DNSUpdateError
 
+        return json.loads(res.content)["success"]
 
