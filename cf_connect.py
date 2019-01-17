@@ -5,7 +5,7 @@ import json
 class CFConnect:
     """CloudFlare API関連"""
 
-    def __init__(self, domain_name, domain_record, email, API_KEY, END_POINT_BASE_URL):
+    def __init__(self, domain_name, domain_record, email, ip, API_KEY, END_POINT_BASE_URL):
         """
         :param domain_name: your domain name
         :param domain_record: your domein record
@@ -19,12 +19,7 @@ class CFConnect:
         self.domain_name = domain_name
         self.domain_record = domain_record
         self.email = email
-
-    def set_ip(self, ip):
-        """ Set IP to CloudFlare
-        :param ip: your global ip
-        """
-        pass
+        self.ip = ip
 
     def _get_zone_id(self):
         """Get zone_id
@@ -38,7 +33,7 @@ class CFConnect:
         zone_id = json.loads(res.content)["result"][0]["id"]
         return zone_id
 
-    def get_record_id(self):
+    def _get_record_id(self):
         """Get record_id
         :return record_id: your domain's record_id
         """
@@ -48,3 +43,17 @@ class CFConnect:
         res = requests.get(url, headers=headers)
         record_id = json.loads(res.content)["result"][0]["id"]
         return record_id
+
+    def update_dns_record(self):
+        """ update dns record to CloudFlare
+        :return:
+        """
+        url = self.END_POINT_BASE_URL + "zones/" + self._get_zone_id() + "/dns_records/" + self._get_record_id()
+        headers = {'X-Auth-Email': self.email, 'X-Auth-Key': self.API_KEY, 'Content-Type': 'application/json'}
+        content = {'type': 'A', 'name': self.domain_name, 'content': self.ip}
+        content = json.dumps(content)
+
+        res = requests.put(url, content, headers=headers)
+        return res.content
+
+
