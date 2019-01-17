@@ -12,7 +12,6 @@ def main():
     domain_record = ""
     email = ""
 
-    # debug use only!
     def debug_init():
         """debug use only method
         デバッグ用のコンフィグを吸い出す

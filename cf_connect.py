@@ -47,7 +47,7 @@ class CFConnect:
 
     def update_dns_record(self):
         """ update dns record to CloudFlare
-        :return:
+        :return: isSuccess
         """
         url = self.END_POINT_BASE_URL + "zones/" + self._get_zone_id() + "/dns_records/" + self._get_record_id()
         headers = {'X-Auth-Email': self.email, 'X-Auth-Key': self.API_KEY, 'Content-Type': 'application/json'}
@@ -57,5 +57,5 @@ class CFConnect:
         if json.loads(res.content)["success"] is False:
             raise user_exception.DNSUpdateError
 
-        return json.loads(res.content)["success"]
+        return True
 
