@@ -14,7 +14,6 @@ class CFConnect:
         :param API_KEY: your CloudFlare's apikey
         :param END_POINT_BASE_URL: CloudFlare's endpoint url
         """
-
         self.API_KEY = API_KEY
         self.END_POINT_BASE_URL = END_POINT_BASE_URL
         self.domain_name = domain_name
@@ -26,7 +25,6 @@ class CFConnect:
         """Get zone_id
         :return zone_id: your domain's zone_id
         """
-
         url = self.END_POINT_BASE_URL + "zones?name=" + self.domain_name + "&status=active&page=1&per_page=20" \
                                                                            "&order=status&direction=desc&match=all"
         headers = {'X-Auth-Email': self.email, 'X-Auth-Key': self.API_KEY, 'Content-Type': "application/json"}
@@ -38,7 +36,6 @@ class CFConnect:
         """Get record_id
         :return record_id: your domain's record_id
         """
-
         url = self.END_POINT_BASE_URL + "zones/" + self._get_zone_id() + "/dns_records?name=" + self.domain_record
         headers = {'X-Auth-Email': self.email, 'X-Auth-Key': self.API_KEY, 'Content-Type': "application/json"}
         res = requests.get(url, headers=headers)

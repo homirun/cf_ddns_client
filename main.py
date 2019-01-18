@@ -1,4 +1,5 @@
 from cf_connect import *
+import logging
 
 API_KEY = ""
 END_POINT_BASE_URL = "https://api.cloudflare.com/client/v4/"
@@ -7,7 +8,6 @@ END_POINT_BASE_URL = "https://api.cloudflare.com/client/v4/"
 def main():
     """main method
     """
-
     domain_name = ""
     domain_record = ""
     email = ""
@@ -18,7 +18,6 @@ def main():
         """
         with open("./debug_config") as f:
             config = [s.strip() for s in f.readlines()]
-
             global API_KEY
             nonlocal domain_name, email, domain_record
             API_KEY = config[0]
@@ -37,7 +36,6 @@ def get_ip():
     """Get your global ip
     :return ip: your global ip
     """
-
     res = requests.get('http://api.ipify.org/')
     return res.content.decode('UTF-8')
 
