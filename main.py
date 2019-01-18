@@ -1,5 +1,4 @@
 from cf_connect import *
-import logging
 
 API_KEY = ""
 END_POINT_BASE_URL = "https://api.cloudflare.com/client/v4/"
