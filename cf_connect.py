@@ -1,6 +1,7 @@
 import requests
 import json
 import user_exception
+import module_logger
 
 
 class CFConnect:
@@ -20,6 +21,7 @@ class CFConnect:
         self.domain_record = domain_record
         self.email = email
         self.ip = ip
+        self.logger = module_logger.create_module_logger(__name__)
 
     def _get_zone_id(self):
         """Get zone_id
@@ -30,29 +32,36 @@ class CFConnect:
         headers = {'X-Auth-Email': self.email, 'X-Auth-Key': self.API_KEY, 'Content-Type': "application/json"}
         res = requests.get(url, headers=headers)
         zone_id = json.loads(res.content)["result"][0]["id"]
+        self.logger.info("zone id: " + zone_id)
         return zone_id
 
-    def _get_record_id(self):
+    def _get_record_id(self, zone_id):
         """Get record_id
         :return record_id: your domain's record_id
         """
-        url = self.END_POINT_BASE_URL + "zones/" + self._get_zone_id() + "/dns_records?name=" + self.domain_record
+        url = self.END_POINT_BASE_URL + "zones/" + zone_id + "/dns_records?name=" + self.domain_record
         headers = {'X-Auth-Email': self.email, 'X-Auth-Key': self.API_KEY, 'Content-Type': "application/json"}
         res = requests.get(url, headers=headers)
         record_id = json.loads(res.content)["result"][0]["id"]
+        self.logger.info("record id: " + record_id)
         return record_id
 
     def update_dns_record(self):
         """ update dns record to CloudFlare
         :return: isSuccess
         """
-        url = self.END_POINT_BASE_URL + "zones/" + self._get_zone_id() + "/dns_records/" + self._get_record_id()
+        zone_id = self._get_zone_id()
+        record_id = self._get_record_id(zone_id)
+        self.logger.info("start update process")
+        url = self.END_POINT_BASE_URL + "zones/" + zone_id + "/dns_records/" + record_id
         headers = {'X-Auth-Email': self.email, 'X-Auth-Key': self.API_KEY, 'Content-Type': 'application/json'}
         content = {'type': 'A', 'name': self.domain_name, 'content': self.ip}
         content = json.dumps(content)
         res = requests.put(url, content, headers=headers)
         if json.loads(res.content)["success"] is False:
+            self.logger.exception("EXCEPTION DNSUpdateError")
             raise user_exception.DNSUpdateError
 
+        self.logger.info("update process success")
         return True
 
