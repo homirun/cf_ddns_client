@@ -36,7 +36,7 @@ def main():
     connector.update_dns_record()
 
 
-def get_ip():
+def get_ip() -> str:
     """Get your global ip
     :return ip: your global ip
     """

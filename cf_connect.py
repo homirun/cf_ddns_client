@@ -23,7 +23,7 @@ class CFConnect:
         self.ip = ip
         self.logger = module_logger.create_module_logger(__name__)
 
-    def _get_zone_id(self):
+    def _get_zone_id(self) -> str:
         """Get zone_id
         :return zone_id: your domain's zone_id
         """
@@ -35,7 +35,7 @@ class CFConnect:
         self.logger.info("zone id: " + zone_id)
         return zone_id
 
-    def _get_record_id(self, zone_id):
+    def _get_record_id(self, zone_id: str) -> str:
         """Get record_id
         :return record_id: your domain's record_id
         """
@@ -46,7 +46,7 @@ class CFConnect:
         self.logger.info("record id: " + record_id)
         return record_id
 
-    def update_dns_record(self):
+    def update_dns_record(self) -> bool:
         """ update dns record to CloudFlare
         :return: isSuccess
         """
