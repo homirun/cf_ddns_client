@@ -10,7 +10,7 @@ class CFConnect:
     def __init__(self, domain_name, domain_record, email, ip, API_KEY, END_POINT_BASE_URL):
         """
         :param domain_name: your domain name
-        :param domain_record: your domein record
+        :param domain_record: your domain record
         :param email: E-mail address registered with CloudFlare
         :param API_KEY: your CloudFlare's apikey
         :param END_POINT_BASE_URL: CloudFlare's endpoint url
