@@ -47,12 +47,12 @@ class CFConnect:
         return record_id
 
     def update_dns_record(self) -> bool:
-        """ update dns record to CloudFlare
+        """update dns record to CloudFlare
         :return: isSuccess
         """
         zone_id = self._get_zone_id()
         record_id = self._get_record_id(zone_id)
-        self.logger.info("start update process")
+        self.logger.info("start " + self.domain_name + " update process")
         url = self.END_POINT_BASE_URL + "zones/" + zone_id + "/dns_records/" + record_id
         headers = {'X-Auth-Email': self.email, 'X-Auth-Key': self.API_KEY, 'Content-Type': 'application/json'}
         content = {'type': 'A', 'name': self.domain_name, 'content': self.ip}
