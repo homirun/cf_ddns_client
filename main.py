@@ -41,8 +41,29 @@ def init(logger: module_logger):
             email = config[3]
 
     # debug_init()
+
+    api_key, domain_name, domain_record, email = _load_file(logger)
     logger.info("end initialize process")
     return api_key, domain_name, domain_record, email
+
+
+def _load_file(logger: module_logger):
+    """load config file
+    :returns
+        api_key: CloudFlare's API Key
+        domain_name: Your domain name
+        domain_record: domain_record registered in CloudFlare
+        email: Email address registered in CloudFlare
+    """
+    logger.info("use debug mode")
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    with open("./debug_config") as f:
+        config = [s.strip() for s in f.readlines()]
+        api_key = config[0]
+        domain_name = config[1]
+        domain_record = config[2]
+        email = config[3]
+        return api_key, domain_name, domain_record, email
 
 
 def get_ip() -> str:
@@ -92,13 +113,12 @@ def create_config():
 
     except KeyboardInterrupt:
         pass
-    finally:
-        pass
 
 
 if __name__ == '__main__':
     if sys.argv[1] == "-c":
         create_config()
+        main()
     elif sys.argv[1] == '-h':
         pass
     else:
