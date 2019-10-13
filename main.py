@@ -20,6 +20,14 @@ def main():
 # TODO: 配列にして複数ドメイン対応
 # TODO: JSON形式の設定ファイル生成
 def init(logger: module_logger):
+    """initialize method
+    :param logger: logging object
+    :returns:
+       - api_key: CloudFlare's API Key
+       - domain_name: Your domain name
+       - domain_record: domain_record registered in CloudFlare
+       - email: Email address registered in CloudFlare
+    """
     logger.info("start initialize process")
     api_key = ""
     domain_name = ""
@@ -49,20 +57,20 @@ def init(logger: module_logger):
 
 def _load_file(logger: module_logger):
     """load config file
-    :returns
+    :returns:
         api_key: CloudFlare's API Key
         domain_name: Your domain name
         domain_record: domain_record registered in CloudFlare
         email: Email address registered in CloudFlare
     """
-    logger.info("use debug mode")
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    with open("./debug_config") as f:
-        config = [s.strip() for s in f.readlines()]
-        api_key = config[0]
-        domain_name = config[1]
-        domain_record = config[2]
-        email = config[3]
+    with open("./cf_ddns.conf") as f:
+        config = f.read()
+        config = json.loads(config)
+        api_key = config['api_key']
+        domain_name = config['domain_name']
+        domain_record = config['domain_record']
+        email = config['email']
         return api_key, domain_name, domain_record, email
 
 
@@ -116,7 +124,9 @@ def create_config():
 
 
 if __name__ == '__main__':
-    if sys.argv[1] == "-c":
+    if len(sys.argv) == 1:
+        main()
+    elif sys.argv[1] == "-c":
         create_config()
         main()
     elif sys.argv[1] == '-h':
