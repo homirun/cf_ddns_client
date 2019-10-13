@@ -1,6 +1,7 @@
 from cf_connect import *
 import sys
 import os
+import json
 
 END_POINT_BASE_URL = "https://api.cloudflare.com/client/v4/"
 
@@ -39,7 +40,7 @@ def init(logger: module_logger):
             domain_record = config[2]
             email = config[3]
 
-    debug_init()
+    # debug_init()
     logger.info("end initialize process")
     return api_key, domain_name, domain_record, email
 
@@ -53,10 +54,41 @@ def get_ip() -> str:
 
 
 def create_config():
-    config = {'apikey': ''}
+    config = {'api_key': '', 'domain_name': '',
+              'domain_record': '', 'email': ''}
     try:
         while True:
-            input('apikey: ')
+            val = input('api key: ')
+            if val == '':
+                raise user_exception.ConfigInsertBlankValueError
+            else:
+                config['api_key'] = val
+
+            val = input('domain name: ')
+            if val == '':
+                raise user_exception.ConfigInsertBlankValueError
+            else:
+                config['domain_name'] = val
+
+            val = input('domain record: ')
+            if val == '':
+                raise user_exception.ConfigInsertBlankValueError
+            else:
+                config['domain_record'] = val
+
+            val = input('email: ')
+            if val == '':
+                raise user_exception.ConfigInsertBlankValueError
+            else:
+                config['email'] = val
+
+            json_config = json.dumps(config)
+            print(json_config)
+
+            with open('./cf_ddns.conf', 'w') as f:
+                f.write(json_config)
+
+            break
 
     except KeyboardInterrupt:
         pass
@@ -65,9 +97,9 @@ def create_config():
 
 
 if __name__ == '__main__':
-    if sys.argv[0] == "-c":
+    if sys.argv[1] == "-c":
         create_config()
-    elif sys.argv[0] == '-h':
+    elif sys.argv[1] == '-h':
         pass
     else:
         main()
