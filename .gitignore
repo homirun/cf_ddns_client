@@ -1,4 +1,5 @@
 __pycache__/
 .idea/
 debug_config
+cf_ddns.conf
 .python-version
