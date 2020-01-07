@@ -2,7 +2,6 @@
 DDNS client compatible with CloudFlare
 
 # Usage
-## First start
 1. `$ python3 main.py -c`
 2. ↓ Answer the dialogue
 ```
